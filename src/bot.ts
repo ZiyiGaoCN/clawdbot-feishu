@@ -1,4 +1,5 @@
 import type { ClawdbotConfig, RuntimeEnv } from "openclaw/plugin-sdk";
+import { patchRuntimeLog } from "./logger.js";
 import {
   buildPendingHistoryContextFromMap,
   recordPendingHistoryEntryIfEnabled,
@@ -906,6 +907,7 @@ export async function handleFeishuMessage(params: {
   const account = resolveFeishuAccount({ cfg, accountId });
   const feishuCfg = account.config;
 
+  if (runtime) patchRuntimeLog(runtime);
   const log = runtime?.log ?? console.log;
   const error = runtime?.error ?? console.error;
 

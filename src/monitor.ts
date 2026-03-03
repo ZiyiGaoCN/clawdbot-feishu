@@ -11,6 +11,7 @@ import { createFeishuWSClient, createEventDispatcher } from "./client.js";
 import { resolveFeishuAccount, listEnabledFeishuAccounts } from "./accounts.js";
 import { handleFeishuMessage, type FeishuMessageEvent, type FeishuBotAddedEvent } from "./bot.js";
 import { probeFeishu } from "./probe.js";
+import { patchRuntimeLog } from "./logger.js";
 
 export type MonitorFeishuOpts = {
   config?: ClawdbotConfig;
@@ -258,6 +259,8 @@ async function monitorWebhook({ params, accountId, eventDispatcher }: Connection
  * Main entry: start monitoring for all enabled accounts.
  */
 export async function monitorFeishuProvider(opts: MonitorFeishuOpts = {}): Promise<void> {
+  if (opts.runtime) patchRuntimeLog(opts.runtime);
+
   const cfg = opts.config;
   if (!cfg) {
     throw new Error("Config is required for Feishu monitor");

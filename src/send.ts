@@ -503,6 +503,7 @@ export async function sendMessageFeishu(params: SendFeishuMessageParams): Promis
       data: {
         content,
         msg_type: msgType,
+        reply_in_thread: true,
       },
     });
 
@@ -565,6 +566,7 @@ export async function sendCardFeishu(params: SendFeishuCardParams): Promise<Feis
       data: {
         content,
         msg_type: "interactive",
+        reply_in_thread: true,
       },
     });
 

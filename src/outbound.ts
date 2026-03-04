@@ -8,8 +8,9 @@ export const feishuOutbound: ChannelOutboundAdapter = {
   chunker: (text, limit) => getFeishuRuntime().channel.text.chunkMarkdownText(text, limit),
   chunkerMode: "markdown",
   textChunkLimit: 4000,
-  sendText: async ({ cfg, to, text, accountId }) => {
-    const result = await sendMessageFeishu({ cfg, to, text, accountId });
+  sendText: async ({ cfg, to, text, replyToId, accountId }) => {
+    console.log(`feishu[${accountId}] sendText called: textLen=${text.length}, text=${text.slice(0, 200)} to=${to} replyToId=${replyToId}`);
+    const result = await sendMessageFeishu({ cfg, to, text, replyToMessageId: replyToId, accountId });
     return { channel: "feishu", ...result };
   },
   sendMedia: async ({ cfg, to, text, mediaUrl, accountId }) => {

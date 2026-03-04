@@ -1548,6 +1548,7 @@ export async function handleFeishuMessage(params: {
       OriginatingTo: feishuTo,
       ReplyToBody: quotedContent,
       ...mediaPayload,
+      UntrustedContext: [`message_id: ${ctx.messageId}`],
     });
 
     const { dispatcher, replyOptions, markDispatchIdle } = createFeishuReplyDispatcher({
@@ -1560,7 +1561,7 @@ export async function handleFeishuMessage(params: {
       accountId: account.accountId,
     });
 
-    log(`feishu[${account.accountId}]: dispatching to agent (session=${route.sessionKey})`);
+    log(`feishu[${account.accountId}]: dispatching to agent (session=${route.sessionKey}, replyToMessageId=${replyToMessageId})`);
 
     const { queuedFinal, counts } = await runWithFeishuToolContext(
       {
